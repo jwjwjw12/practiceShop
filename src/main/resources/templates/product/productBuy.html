@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
+    <title>Shop Main</title>
+
+    <!-- 부트스트랩 -->
+    <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom styles for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/blog.css" rel="stylesheet">
+    <link href="/css/index.css" rel="stylesheet">
+    <link href="/css/myPage.css" rel="stylesheet">
+
+    <!-- forTest -->
+    <link href="../../static/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../static/css/blog.css" rel="stylesheet">
+    <link href="../../static/css/index.css" rel="stylesheet">
+    <link href="../../static/css/myPage.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="container mb-5">
+    <header class="blog-header py-3">
+        <div class="row flex-nowrap justify-content-between align-items-center">
+            <div class="col-4 pt-1">
+                <div class="dropdown">
+                    <button class="btn btn-lg top-btn dropdown-toggle" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false"><strong>카테고리</strong>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" id="dropdown-categories"
+                        aria-labelledby="dropdownMenuButton1"></ul>
+                </div>
+            </div>
+            <div class="col-4 text-center">
+                <a class="blog-header-logo text-dark" id="header-logo" th:href="@{/}">Dozi Shop</a>
+            </div>
+            <div class="col-4 d-flex justify-content-end align-items-center">
+                <a class="btn btn-sm col-2 top-btn" id="notice-btn">Notice</a>
+                <a class="btn btn-sm col-2 top-btn" id="event-btn">Event</a>
+                <a class="btn btn-sm col-2 top-btn" id="qna-btn">Qna</a>
+                <a sec:authorize="isAnonymous()" th:href="@{/member/login}" class="btn btn-sm btn-secondary col-2"
+                   id="login-btn">Login</a>
+                <div class="dropdown" sec:authorize="isAuthenticated()">
+                    <button class="btn btn-sm top-btn dropdown-toggle" type="button" id="dropdownMenuButton2"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <span sec:authentication="principal.viewName"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" id="dropdown-categories2"
+                        aria-labelledby="dropdownMenuButton2">
+                        <a th:href="@{/member/logout}" class="dropdown-item mb-3 mt-3">로그아웃</a>
+                        <a th:href="@{/my}" class="dropdown-item mb-3 mt-3">마이페이지</a>
+                        <a th:href="@{#}" class="dropdown-item mb-3 mt-3">장바구니</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="mb-5"></div>
+    <div class="mb-3 mt-5" style="overflow: hidden">
+        <img src="/img/Ex_banner.png" style="object-fit: cover"/>
+    </div>
+</div>
+
+<main class="container" th:object="${product}">
+    <hr>
+    <div class="row align-items-center">
+        <div class="col text-center">
+            <img src="/img/altImg.png" class="rounded-start img-fluid" alt="...">
+            <p class="mb-4 h3"><strong th:text="*{name}">원피스</strong></p>
+        </div>
+        <div class="col text-start">
+            <p class="h3 mb-3 mt-4 mb-4" th:text="|*{price} 원|">10000원</p>
+
+            <p class="h6">결제 방법 선택 (실제 결제 X)</p>
+            <select class="form-select mb-4" aria-label="Default select example" style="width: 50%">
+                <option selected>신용카드</option>
+                <option value="1">삼성페이</option>
+                <option value="2">Toss</option>
+                <option value="3">카카오페이</option>
+                <option value="4">모바일</option>
+            </select>
+
+            <div class="row mt-5">
+                <a class="btn btn-secondary me-3" th:href="@{'/add/orders/' + ${product.id}}" style="width: 15%;">주문하기</a>
+                <a class="btn btn-secondary" onclick="history.back()" style="width: 10%;">취소</a>
+            </div>
+        </div>
+    </div>
+    <hr>
+</main>
+
+<footer class="blog-footer mt-lg-5">
+    <p> made by JW </p>
+    <p> Test Version 1.0</p>
+    <p>Email : protoss1025@gamil.com</p>
+    <p>phone : 010-6880-1975</p>
+</footer>
+
+<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
+<script src="/js/bootstrap.bundle.min.js"></script>
+<!-- JS -->
+<script src="/js/index.js"></script>
+<!-- fontAwesome-->
+<script src="https://kit.fontawesome.com/c452641c94.js" crossorigin="anonymous"></script>
+
+<!-- forTest -->
+<script src="../../static/js/index.js"></script>
+<script src="../../static/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

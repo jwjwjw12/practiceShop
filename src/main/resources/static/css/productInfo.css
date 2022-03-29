@@ -1,0 +1,47 @@
+.title-btn{
+    border-radius: 50%;
+    color: black;
+    font-size: 1.5em;
+    border: black;
+    outline: black;
+}
+
+.title-btn:hover{
+    cursor: pointer;
+    color: red;
+}
+
+.custom-info-link{
+    color: #6c757d;
+    width: 33%;
+}
+
+.custom-info-link:hover{
+    color: black;
+}
+
+.stars{
+    font-size: 20px;
+}
+
+.stars-background{
+    position: absolute;
+    width: 141px;
+    overflow: hidden;
+    color: #cdcdcd;
+}
+
+.stars-color{
+    position: absolute;
+    overflow: hidden;
+    white-space: nowrap;
+    color: gold;
+}
+
+.review-container{
+    width: 70%;
+}
+
+.ask-container{
+    width: 70%;
+}

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
+    <title>Shop Product List By Category</title>
+
+    <!-- 부트스트랩 -->
+    <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom styles for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/blog.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/css/index.css" rel="stylesheet">
+
+</head>
+<body>
+<div class="container mb-5">
+    <header class="blog-header py-3">
+        <div class="row flex-nowrap justify-content-between align-items-center">
+            <div class="col-4 pt-1">
+                <div class="dropdown">
+                    <button class="btn btn-lg top-btn dropdown-toggle" type="button" id="dropdownMenuButton1"
+                            data-bs-toggle="dropdown" aria-expanded="false"><strong>카테고리</strong>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" id="dropdown-categories"
+                        aria-labelledby="dropdownMenuButton1"></ul>
+                </div>
+            </div>
+            <div class="col-4 text-center">
+                <a class="blog-header-logo text-dark" id="header-logo" th:href="@{/}">Dozi Shop</a>
+            </div>
+            <div class="col-4 d-flex justify-content-end align-items-center">
+                <a class="btn btn-sm col-2 top-btn" id="notice-btn">Notice</a>
+                <a class="btn btn-sm col-2 top-btn" id="event-btn">Event</a>
+                <a class="btn btn-sm col-2 top-btn" id="qna-btn">Qna</a>
+                <a sec:authorize="isAnonymous()" th:href="@{/member/login}" class="btn btn-sm btn-secondary col-2"
+                   id="login-btn">Login</a>
+                <div class="dropdown" sec:authorize="isAuthenticated()">
+                    <button class="btn btn-sm top-btn dropdown-toggle" type="button" id="dropdownMenuButton2"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <span sec:authentication="principal.viewName"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" id="dropdown-categories2"
+                        aria-labelledby="dropdownMenuButton2">
+                        <a th:href="@{/member/logout}" class="dropdown-item mb-3 mt-3" id="logout-btn">Logout</a>
+                        <a th:href="@{#}" class="dropdown-item mb-3 mt-3" id="myPage-btn">My Page</a>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="mb-5"></div>
+    <div class="mb-3 mt-5" style="overflow: hidden">
+        <img src="/img/Ex_banner.png" style="object-fit: cover"/>
+    </div>
+</div>
+
+<main class="container">
+    <div class="container">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <button class="nav-link custom-link disabled" th:text="|${category}|"></button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active custom-link" id="miniCategoryTab-all" data-bs-toggle="pill"
+                        data-bs-target="#miniCategory-all" type="button"
+                        role="tab" aria-controls="pills-contact" aria-selected="true">ALL
+                </button>
+            </li>
+            <li th:each="mini : ${minis}">
+                <button class="nav-link custom-link" th:id="'miniCategoryTab-'+${mini.id}"
+                        data-bs-toggle="pill"
+                        th:data-bs-target="'#miniCategory'+${mini.id}" type="button"
+                        role="tab" aria-controls="pills-contact" aria-selected="true"><span
+                        th:text="${mini.name}"></span>
+                </button>
+            </li>
+        </ul>
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="miniCategory-all" role="tabpanel"
+                 aria-labelledby="pills-home-tab">
+                <div class="row mb-5" id="product-container-all">
+                    <div th:each="product : ${products}" class="col-md-3 mb-3 product-container">
+                        <div class="card" style="width: 18rem;">
+                            <img src="/img/altImg.png" class="card-img-top product-img" alt="..." th:onclick="|location.href='/product/${product.id}'|">
+                            <div class="card-body text-center">
+                                <a class="card-title h3 mb-5" th:text="${product.name}" th:href="@{/product/__${product.id}__}"></a>
+                                <h5 class="card-text" th:text="${product.price}+'원'"></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:each="mini, i : ${minis}" class="tab-pane fade" th:id="'miniCategory'+${mini.id}" role="tabpanel" aria-labelledby="pills-home-tab">
+                <div class="row mb-5">
+                    <div th:each="product : ${products}" th:if="${mini.id == product.mini.id}" class="col-md-3 mb-3 product-container">
+                        <div class="card" style="width: 18rem;">
+                            <img src="/img/altImg.png" class="card-img-top product-img" alt="..." th:onclick="|location.href='/product/${product.id}'|">
+                            <div class="card-body text-center">
+                                <a class="card-title h3 mb-5" th:text="${product.name}" th:href="@{/product/__${product.id}__}"></a>
+                                <h5 class="card-text" th:text="${product.price}+'원'"></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="blog-footer" style="margin-top: 7%;">
+    <p> made by JW </p>
+    <p> Test Version 1.0</p>
+    <p>Email : protoss1025@gamil.com</p>
+</footer>
+
+<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
+<script src="/js/bootstrap.bundle.min.js"></script>
+<!-- JS -->
+<script src="/js/index.js"></script>
+
+</body>
+</html>

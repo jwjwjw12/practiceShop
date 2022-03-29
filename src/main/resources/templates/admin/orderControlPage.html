@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
+    <title>Shop Main</title>
+
+    <!-- 부트스트랩 -->
+    <link href="/css/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Custom styles for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair&#43;Display:700,900&amp;display=swap" rel="stylesheet">
+    <link href="/css/blog.css" rel="stylesheet">
+    <link href="/css/index.css" rel="stylesheet">
+    <link href="/css/adminOrder.css" rel="stylesheet">
+
+</head>
+<body>
+
+<!-- Header -->
+<div class="container mb-5">
+    <header class="blog-header py-3">
+        <div class="row flex-nowrap justify-content-between align-items-center">
+            <!-- 네비게이션 바 왼쪽 부분 -->
+            <div class="col-4 pt-1">
+                <!-- 오픈캔버스 -->
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+                        <span><i class="fas fa-bars"></i></span>
+                    </button>
+                    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
+                         aria-labelledby="offcanvasNavbarLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">관리자 페이지 목록</h5>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                                    aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                                <li class="nav-item mt-4">
+                                    <a class="btn" aria-current="page" th:href="@{/admin/product}"><h4>카테고리, 상품 관리</h4>
+                                    </a>
+                                </li>
+                                <li class="nav-item mt-4">
+                                    <a class="btn" th:href="@{/admin/product}"><h4>주문 관리</h4></a>
+                                </li>
+                                <li class="nav-item mt-4">
+                                    <a class="btn" th:href="@{/admin/product}"><h4>질문 관리</h4></a>
+                                </li>
+                                <li class="nav-item mt-4">
+                                    <a class="btn" th:href="@{/admin/product}"><h4>QNA 관리</h4></a>
+                                </li>
+                                <li class="nav-item mt-4">
+                                    <a class="btn" th:href="@{/admin/product}"><h4>이벤트 관리</h4></a>
+                                </li>
+                                <li class="nav-item mt-4">
+                                    <a class="btn" th:href="@{/admin/product}"><h4>공지사항 관리</h4></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 네비게이션바 중앙 부분 -->
+            <div class="col-4 text-center">
+                <a class="blog-header-logo text-dark" id="header-logo" th:href="@{/admin/product}">Admin Page</a>
+            </div>
+
+            <!-- 네비게이션바 오른쪽 부분 -->
+            <div class="col-4 d-flex justify-content-end align-items-center">
+                <a class="btn btn-sm col-2 top-btn btn-secondary me-3" id="qna-btn" th:href="@{/}">HOME</a>
+                <a sec:authorize="isAnonymous()" th:href="@{/member/login}" class="btn btn-sm btn-secondary col-2"
+                   id="login-btn">Login</a>
+                <div class="dropdown" sec:authorize="isAuthenticated()">
+                    <button class="btn btn-sm top-btn dropdown-toggle" type="button" id="dropdownMenuButton2"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                        <span sec:authentication="principal.viewName"></span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" id="dropdown-categories2"
+                        aria-labelledby="dropdownMenuButton2">
+                        <a th:href="@{/member/logout}" class="dropdown-item mb-3 mt-3">로그아웃</a>
+                        <a th:href="@{/my}" class="dropdown-item mb-3 mt-3">마이페이지</a>
+                        <a th:href="@{#}" class="dropdown-item mb-3 mt-3">장바구니</a>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </header>
+    <div class="mb-5"></div>
+
+    <!-- 메인 로고 부분 -->
+    <div class="mb-3 mt-5" style="overflow: hidden">
+        <img src="/img/Ex_banner.png" style="object-fit: cover"/>
+    </div>
+
+</div>
+
+<!-- Main -->
+<main class="container">
+
+    <!-- tap -->
+    <ul class="nav nav-pills mb-4 justify-content-center" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active custom-link" id="tab-yet" data-bs-toggle="pill"
+                    data-bs-target="#yet-orders" type="button"
+                    role="tab" aria-controls="pills-contact" aria-selected="true">요청된 주문
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link custom-link" id="tab-okay" data-bs-toggle="pill"
+                    data-bs-target="#okay-orders" type="button"
+                    role="tab" aria-controls="pills-contact" aria-selected="true">확정한 주문
+            </button>
+        </li>
+    </ul>
+
+    <!-- Orders -->
+    <div class="tab-content">
+        <!-- yet orders -->
+        <div class="tab-pane fade show active" id="yet-orders" role="tabpanel">
+            <div class="row justify-content-center mt-2" id="yet-orders-container"></div>
+
+            <div class="container-fluid text-center mt-5">
+                <button class="btn btn-primary me-3" id="order-btn" onclick="order_btn()">주문 확정</button>
+                <button class="btn btn-secondary" id="cancel-btn" onclick="cancel_btn()">주문 취소</button>
+            </div>
+        </div>
+
+        <!-- okay orders -->
+        <div class="tab-pane fade" id="okay-orders" role="tabpanel">
+            <div class="row justify-content-center mt-2" id="okay-orders-container"></div>
+        </div>
+    </div>
+
+</main>
+
+
+<!-- footer -->
+<footer class="blog-footer" style="margin-top: 7%;">
+    <h5> 가명 : Dozi Shop </h5>
+    <p> made by JW </p>
+    <p> Test Version 1.0</p>
+    <p>Email : protoss1025@gamil.com</p>
+</footer>
+
+<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
+<script src="/js/bootstrap.bundle.js"></script>
+<script src="/js/adminOrder.js"></script>
+
+<!-- fontAwesome-->
+<script src="https://kit.fontawesome.com/c452641c94.js" crossorigin="anonymous"></script>
+
+</body>
+</html>
